@@ -246,4 +246,4 @@ manzil/
 <div align="center">
 
 Made for Pakistan in Pakistan
-[Manzil Demo](https://manzil-production-73bf.up.railway.app)</div>
+[Manzil Demo]('https://manzil-fju9.onrender.com/api')</div>
