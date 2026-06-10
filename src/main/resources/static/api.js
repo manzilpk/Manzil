@@ -1,4 +1,4 @@
-const API_BASE = 'https://manzil-production-73bf.up.railway.app/api';
+const API_BASE = 'https://manzil-fju9.onrender.com';
 
 const AuthService = {
 
