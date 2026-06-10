@@ -1,4 +1,4 @@
-const API_BASE = 'https://manzil-fju9.onrender.com';
+const API_BASE = 'https://manzil-fju9.onrender.com/api';
 
 const AuthService = {
 
