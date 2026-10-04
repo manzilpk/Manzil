@@ -44,7 +44,7 @@
         </div>
 
         <div class="filter-group">
-          <label class="filter-label">City</label>
+          <label class="filter-label">  <i data-lucide="map-pin" class="label-icon" width="14" height="14" stroke-width="1.75"></i> City</label>
           <div class="city-chips" id="cityChips">
             <button class="city-chip active" data-city="">All Cities</button>
             <button class="city-chip" data-city="Karachi">Karachi</button>
@@ -56,7 +56,9 @@
         </div>
 
         <div class="filter-group">
-          <label class="filter-label">Cost Range</label>
+          <div class="filter-label">
+            <i data-lucide="dollar-sign" class="label-icon" width="14" height="14" stroke-width="1.75"></i> Cost Range
+          </div>
           <div class="range-display">
             <span id="minCostLabel">PKR 0</span>
             <span>-</span>
@@ -72,7 +74,9 @@
         </div>
 
         <div class="filter-group">
-          <label class="filter-label">Vibe</label>
+          <label class="filter-label">
+            <i data-lucide="sparkles" class="label-icon" width="14" height="14" stroke-width="1.75"></i> Vibe
+          </label>
           <div class="tag-grid" id="vibeFilters">
             <div class="tag-skel"></div><div class="tag-skel"></div>
             <div class="tag-skel"></div><div class="tag-skel"></div>
@@ -80,7 +84,8 @@
         </div>
 
         <div class="filter-group">
-          <label class="filter-label">Category</label>
+          <label class="filter-label">  <i data-lucide="layout-grid" class="label-icon" width="14" height="14" stroke-width="1.75"></i> Category
+          </label>
           <div class="tag-grid" id="catFilters">
             <div class="tag-skel"></div><div class="tag-skel"></div>
             <div class="tag-skel"></div><div class="tag-skel"></div>
@@ -88,7 +93,10 @@
         </div>
 
         <div class="filter-group">
-          <label class="filter-label">Availability</label>
+          <label class="filter-label">
+              <i data-lucide="clock" class="label-icon" width="14" height="14" stroke-width="1.75"></i> 
+              Availability
+            </label>
           <label class="toggle-label">
             <input type="checkbox" id="openNowToggle"/>
             <span class="toggle-track"><span class="toggle-thumb"></span></span>
@@ -129,11 +137,31 @@
     </main>
   </div>
 
+  <script src="https://unpkg.com/lucide@latest"></script>
   <script>
     const BASE = 'https://manzil-fju9.onrender.com/api';
     const FALLBACK_IMG = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&q=80';
     const VIBE_LABELS = ['Androon', 'Aesthetic', 'Casual', 'Cosy', 'Trendy', 'Peaceful', 'Romantic', 'Study Friendly'];
-    const VIBE_ICONS = ['✨','🔥','🌙','🌿','🎉','💎','🌊','🏔️'];
+    const VIBE_ICONS = {
+    'Androon': 'castle',
+    'Aesthetic': 'camera',
+    'Casual': 'coffee',
+    'Cosy': 'armchair',
+    'Trendy': 'sparkles',
+    'Peaceful': 'leaf',
+    'Romantic': 'heart',
+    'Study Friendly': 'book-open',
+    'Family Friendly': 'users',
+    'Budget Friendly': 'wallet',
+    'Luxury': 'gem',
+    'Adventure': 'compass',
+    'Nature-Immersive': 'tree-pine',
+    'Vibrant': 'zap',
+    'Cultural': 'landmark'
+  };
+
+const vibeIcon = name =>
+  `<i data-lucide="${VIBE_ICONS[name] || 'tag'}" class="vibe-icon"></i>`;
 
     let basePlaces = [];
     let allPlaces = [];
@@ -364,10 +392,10 @@
           };
         }));
 
-        document.getElementById('vibeFilters').innerHTML = vibeOptions.map(v =>
-          `<button class="tag-btn" data-vibe-id="${v.id}">${VIBE_ICONS[v.id - 1] || '✨'} ${v.label}</button>`
+       document.getElementById('vibeFilters').innerHTML = vibeOptions.map(v =>
+          `<button class="tag-btn" data-vibe-id="${v.id}">${vibeIcon(v.label)} ${v.label}</button>`
         ).join('');
-
+        lucide.createIcons();
         document.querySelectorAll('[data-vibe-id]').forEach(btn => {
           btn.addEventListener('click', () => {
             const id = Number(btn.dataset.vibeId);
