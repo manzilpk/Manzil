@@ -345,16 +345,24 @@
 
     async function loadVibeFilters() {
       try {
-        const results = await Promise.all(
-          Array.from({length:8}, (_, i) =>
-            fetch(`${BASE}/places/vibe?vibeID=${i + 1}`).then(r => r.json()).catch(() => [])
-          )
-        );
-        vibeOptions = results.map((places, index) => ({
-          id: index + 1,
-          label: VIBE_LABELS[index] || 'Cosy',
-          placeIds: new Set(places.map(p => p.placeId))
-        })).filter(v => v.placeIds.size);
+        const vibes = await fetch(`${BASE}/vibes`).then(r => {
+          if (!r.ok) throw new Error('Could not load vibes');
+          return r.json();
+        });
+
+        vibeOptions = await Promise.all(vibes.map(async vibe => {
+          const response = await fetch(
+            `${BASE}/places/vibe?vibeID=${vibe.vibeId}`
+          );
+          if (!response.ok) throw new Error(`Could not load places for vibe ${vibe.vibeId}`);
+
+          const places = await response.json();
+          return {
+            id: vibe.vibeId,
+            label: vibe.name,
+            placeIds: new Set(places.map(place => place.placeId))
+          };
+        }));
 
         document.getElementById('vibeFilters').innerHTML = vibeOptions.map(v =>
           `<button class="tag-btn" data-vibe-id="${v.id}">${VIBE_ICONS[v.id - 1] || '✨'} ${v.label}</button>`
