@@ -4,6 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Manzil — Sign Up</title>
+     <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
   <link rel="stylesheet" href="index.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -186,9 +187,41 @@
       .terms { margin-top: .6rem; }
       .divider { margin: .9rem 0; }
     }
+    a.back-home,
+a.back-home:visited {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white);
+  color: var(--moss);
+  border: 1.5px solid var(--cream-dk);
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  text-decoration: none;
+  transition: background .25s, color .25s, transform .15s, box-shadow .25s;
+  z-index: 10;
+}
+a.back-home:hover {
+  background: var(--moss);
+  color: var(--white);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.12);
+}
+a.back-home svg {
+  width: 20px;
+  height: 20px;
+}
   </style>
 </head>
 <body>
+  <a href="index.html" class="back-home" aria-label="Back to home">
+  <i data-lucide="arrow-left" width="20" height="20" stroke-width="1.75"></i>
+  </a>
 
   <!-- Grain texture overlay -->
   <div class="grain"></div>
@@ -338,6 +371,8 @@
       }
     });
   </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+  <script>lucide.createIcons();</script>
 
 </body>
 </html>

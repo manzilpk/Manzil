@@ -4,6 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Manzil — My Profile</title>
+     <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
   <link rel="stylesheet" href="shared.css"/>
   <link rel="stylesheet" href="profile.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
@@ -14,18 +15,24 @@
   <div class="grain"></div>
 
   <nav class="nav" id="nav">
-    <a href="index.html" class="nav-logo">M<span>anzil</span></a>
-    <div class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="places.html">Explore</a>
-      <a href="bookmarks.html">My Bookmarks</a>
-      <a href="likedplaces.html">Liked Places</a>
-      <a href="profile.html" class="active">My Profile</a>
+  <a href="index.html" class="nav-logo">M<span>anzil</span></a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html"><i data-lucide="house" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Home</a>
+    <a href="places.html"><i data-lucide="compass" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Explore</a>
+    <a href="places.html?open=true"><i data-lucide="door-open" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Open Now</a>
+    <a href="places.html?nearby=true"><i data-lucide="locate-fixed" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Near Me</a>
+  </div>
+  <div class="nav-right" id="navRight">
+    <div class="nav-links nav-user">
+      <a href="bookmarks.html"><i data-lucide="bookmark" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Bookmarks</a>
+      <a href="likedplaces.html"><i data-lucide="heart" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Liked</a>
+      <a href="profile.html" class="active" aria-current="page"><i data-lucide="user" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> <span id="navUserName">Profile</span></a>
     </div>
-    <div class="nav-right">
-      <button class="nav-btn-ghost" onclick="handleLogout()">Log out</button>
-    </div>
-  </nav>
+    <button class="nav-btn-ghost" onclick="handleLogout()">
+      <i data-lucide="log-out" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Log out
+    </button>
+  </div>
+</nav>
 
   <main class="profile-container">
     <div class="profile-header">
@@ -98,6 +105,7 @@
       </section>
     </div>
   </main>
+<script src="https://unpkg.com/lucide@latest"></script>
 
   <script>
     const BASE = 'https://manzil-fju9.onrender.com/api';
@@ -283,9 +291,15 @@
     });
 
     window.addEventListener('DOMContentLoaded', () => {
-      loadProfile();
-      loadStats();
-    });
+  const navUser = getCurrentUser();
+  if (navUser) {
+    document.getElementById('navUserName').textContent =
+      navUser.name || navUser.fullname || navUser.email?.split('@')[0] || 'Profile';
+  }
+  lucide.createIcons();
+  loadProfile();
+  loadStats();
+});
   </script>
 
 </body>

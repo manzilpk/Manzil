@@ -4,9 +4,32 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Manzil — Find Your Place</title>
+     <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
   <link rel="stylesheet" href="index.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+   <style>
+    .nav svg.nav-icon {
+      width: 20px !important;
+      height: 20px !important;
+      flex-shrink: 0;
+      margin-right: 6px;
+      vertical-align: -4px;
+    }
+    .nav .nav-user {
+      background: var(--moss);
+      padding: 8px 20px;
+      border-radius: 999px;
+    }
+    .nav .nav-user a,
+    .nav .nav-user a:visited {
+      color: var(--white);
+    }
+    .nav .nav-user a:hover {
+      opacity: .8;
+    }
+  </style>
+
 </head>
 <body>
 
@@ -15,11 +38,10 @@
   <nav class="nav" id="nav">
     <a href="index.html" class="nav-logo">M<span>anzil</span></a>
     <div class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="places.html">Explore</a>
-      <a href="places.html?open=true">Open Now</a>
-      <a href="places.html?nearby=true">Near Me</a>
-      <a href="likedplaces.html"><i class="fas fa-heart"></i> Liked</a>
+      <a href="index.html"><i data-lucide="house" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Home</a>
+      <a href="places.html"><i data-lucide="compass" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Explore</a>
+      <a href="places.html?open=true"><i data-lucide="door-open" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Open Now</a>
+      <a href="places.html?nearby=true"><i data-lucide="locate-fixed" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Near Me</a>
     </div>
     <div class="nav-right" id="navRight">
       <button class="nav-btn-ghost" onclick="location.href='login.html'">Log in</button>
@@ -59,13 +81,6 @@
         </button>
       </div>
       <div class="search-results" id="searchResults" style="display:none;"></div>
-    </div>
-
-    <div class="vibe-pills" id="vibePills">
-      <span class="pill-skel"></span>
-      <span class="pill-skel"></span>
-      <span class="pill-skel"></span>
-      <span class="pill-skel"></span>
     </div>
 
     <div class="hero-deco-num" id="placeCount">—</div>
@@ -163,28 +178,26 @@
     const navRight = document.getElementById('navRight');
     const navLinks = document.getElementById('navLinks');
     if (user) {
-      const userData = JSON.parse(user);
-      const userName = userData.name || userData.email.split('@')[0];
-      navLinks.innerHTML = `
-        <a href="index.html">Home</a>
-        <a href="places.html">Explore</a>
-        <a href="places.html?open=true">Open Now</a>
-        <a href="places.html?nearby=true">Near Me</a>
-        <a href="likedplaces.html"><i class="fas fa-heart"></i> Liked</a>
-      `;
-      navRight.innerHTML = `
-        <a href="bookmarks.html" style="color:var(--moss);font-weight:500;display:flex;align-items:center;gap:.5rem;text-decoration:none;">
-          <i class="fas fa-bookmark"></i> Bookmarks
-        </a>
-        <a href="likedplaces.html" style="color:var(--moss);font-weight:500;display:flex;align-items:center;gap:.5rem;text-decoration:none;">
-          <i class="fas fa-heart"></i> Liked
-        </a>
-        <a href="profile.html" style="color:var(--moss);font-weight:500;display:flex;align-items:center;gap:.5rem;text-decoration:none;">
-          <i class="fas fa-user"></i> ${userName}
-        </a>
-        <button class="nav-btn-ghost" onclick="handleLogout()">Log out</button>
-      `;
-    }
+  const userData = JSON.parse(user);
+  const userName = userData.name || userData.fullname || userData.email.split('@')[0];
+  navLinks.innerHTML = `
+    <a href="index.html"><i data-lucide="house" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Home</a>
+    <a href="places.html"><i data-lucide="compass" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Explore</a>
+    <a href="places.html?open=true"><i data-lucide="door-open" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Open Now</a>
+    <a href="places.html?nearby=true"><i data-lucide="locate-fixed" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Near Me</a>
+  `;
+  navRight.innerHTML = `
+  <div class="nav-links nav-user">
+    <a href="bookmarks.html"><i data-lucide="bookmark" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Bookmarks</a>
+    <a href="likedplaces.html"><i data-lucide="heart" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Liked</a>
+    <a href="profile.html"><i data-lucide="user" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> ${userName}</a>
+  </div>
+  <button class="nav-btn-ghost" onclick="handleLogout()">
+    <i data-lucide="log-out" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Log out
+  </button>
+`;
+}
+lucide.createIcons();
   }
 
   function handleLogout() {
@@ -195,8 +208,6 @@
   window.addEventListener('DOMContentLoaded', updateNavBar);
 
   const BASE = 'https://manzil-fju9.onrender.com/api';
-  const VIBE_ICONS = ['✨','🔥','🌙','🌿','🎉','💎','🌊','🏔️'];
-  const VIBE_LABELS = ['Androon', 'Aesthetic', 'Casual', 'Cosy', 'Trendy', 'Peaceful', 'Romantic', 'Study Friendly'];
   const FALLBACK_IMG = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&q=80';
   const placeImage = p => p.imageUrl || p.imgUrl || p.imgUrls?.[0] || FALLBACK_IMG;
   const bgImage = p => `background-image:url('${placeImage(p)}')`;
@@ -496,5 +507,7 @@
   loadRecommendations();
   requestLocation();
 </script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>lucide.createIcons();</script>
 </body>
 </html>

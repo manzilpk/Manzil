@@ -4,23 +4,45 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Manzil - Explore Places</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
   <link rel="stylesheet" href="shared.css"/>
   <link rel="stylesheet" href="places.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    .nav svg.nav-icon {
+      width: 20px !important;
+      height: 20px !important;
+      flex-shrink: 0;
+      margin-right: 6px;
+      vertical-align: -4px;
+    }
+    .nav .nav-user {
+  background: var(--moss);
+  padding: 8px 20px;
+  border-radius: 999px;
+}
+.nav .nav-user a,
+.nav .nav-user a:visited {
+  color: var(--white);
+}
+.nav .nav-user a:hover {
+  opacity: .8;
+}
+  </style>
 </head>
 <body>
   <div class="grain"></div>
 
-  <nav class="nav" id="nav">
-    <a href="index.html" class="nav-logo">M<span>anzil</span></a>
-    <div class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="places.html">Explore</a>
-      <a href="places.html?open=true">Open Now</a>
-      <a href="places.html?nearby=true">Near Me</a>
-      <a href="likedplaces.html"><i class="fas fa-heart"></i> Liked</a>
-    </div>
+ <nav class="nav" id="nav">
+  <a href="index.html" class="nav-logo">M<span>anzil</span></a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html"><i data-lucide="house" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Home</a>
+    <a href="places.html"><i data-lucide="compass" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Explore</a>
+    <a href="places.html?open=true"><i data-lucide="door-open" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Open Now</a>
+    <a href="places.html?nearby=true"><i data-lucide="locate-fixed" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Near Me</a>
+  </div>
     <div class="nav-right" id="navRight">
       <button class="nav-btn-ghost" onclick="location.href='login.html'">Log in</button>
       <button class="nav-btn-solid" onclick="location.href='signup.html'">Join Free</button>
@@ -31,7 +53,10 @@
     <aside class="sidebar">
       <div class="sidebar-inner">
         <div class="filter-header">
-          <h2>Filters</h2>
+          <h2>
+    <i data-lucide="sliders-horizontal" class="title-icon" width="20" height="20" stroke-width="1.75"></i>
+    Filters
+      </h2> 
           <button class="clear-btn" id="clearAll">Clear all</button>
         </div>
 
@@ -92,17 +117,16 @@
           </div>
         </div>
 
-        <div class="filter-group">
-          <label class="filter-label">
-              <i data-lucide="clock" class="label-icon" width="14" height="14" stroke-width="1.75"></i> 
-              Availability
-            </label>
-          <label class="toggle-label">
-            <input type="checkbox" id="openNowToggle"/>
-            <span class="toggle-track"><span class="toggle-thumb"></span></span>
-            <span>Open right now</span>
-          </label>
-        </div>
+        <div class="filter-group" style="display:none">
+  <label class="filter-label">
+    <i data-lucide="clock" class="label-icon" width="14" height="14" stroke-width="1.75"></i> Availability
+  </label>
+  <label class="toggle-label">
+    <input type="checkbox" id="openNowToggle"/>
+    <span class="toggle-track"><span class="toggle-thumb"></span></span>
+    <span>Open right now</span>
+  </label>
+</div>
 
         <button class="apply-btn" id="applyFilters">Apply Filters</button>
       </div>
@@ -765,35 +789,33 @@ const vibeIcon = name =>
     }
 
     function updateNavBar() {
-      const user = localStorage.getItem('manzilUser');
-      const navLinks = document.getElementById('navLinks');
-      const navRight = document.getElementById('navRight');
+  const user = localStorage.getItem('manzilUser');
+  const navLinks = document.getElementById('navLinks');
+  const navRight = document.getElementById('navRight');
 
-      if (user) {
-        const userData = JSON.parse(user);
-        const userName = userData.name || userData.fullname || userData.email.split('@')[0];
-        navLinks.innerHTML = `
-          <a href="index.html">Home</a>
-          <a href="places.html">Explore</a>
-          <a href="places.html?open=true">Open Now</a>
-          <a href="places.html?nearby=true">Near Me</a>
-          <a href="likedplaces.html"><i class="fas fa-heart"></i> Liked</a>
-        `;
-        navRight.innerHTML = `
-          <a href="bookmarks.html" class="nav-links" style="color: var(--moss); font-weight: 500; display: flex; align-items: center; gap: 0.5rem;">
-            <i class="fas fa-bookmark"></i> Bookmarks
-          </a>
-          <a href="likedplaces.html" class="nav-links" style="color: var(--moss); font-weight: 500; display: flex; align-items: center; gap: 0.5rem;">
-            <i class="fas fa-heart"></i> Liked
-          </a>
-          <a href="profile.html" class="nav-links" style="color: var(--moss); font-weight: 500; display: flex; align-items: center; gap: 0.5rem;">
-            <i class="fas fa-user"></i> ${userName}
-          </a>
-          <button class="nav-btn-ghost" onclick="handleLogout()">Log out</button>
-        `;
-      }
-      setActiveNavTab();
-    }
+  if (user) {
+    const userData = JSON.parse(user);
+    const userName = userData.name || userData.fullname || userData.email.split('@')[0];
+    navLinks.innerHTML = `
+      <a href="index.html"><i data-lucide="house" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Home</a>
+      <a href="places.html"><i data-lucide="compass" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Explore</a>
+      <a href="places.html?open=true"><i data-lucide="door-open" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Open Now</a>
+      <a href="places.html?nearby=true"><i data-lucide="locate-fixed" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Near Me</a>
+    `;
+    navRight.innerHTML = `
+  <div class="nav-links nav-user">
+    <a href="bookmarks.html"><i data-lucide="bookmark" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Bookmarks</a>
+    <a href="likedplaces.html"><i data-lucide="heart" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Liked</a>
+    <a href="profile.html"><i data-lucide="user" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> ${userName}</a>
+  </div>
+  <button class="nav-btn-ghost" onclick="handleLogout()">
+    <i data-lucide="log-out" class="nav-icon" width="16" height="16" stroke-width="1.75"></i> Log out
+  </button>
+`;
+  }
+  lucide.createIcons();
+  setActiveNavTab();
+}
 
     function setActiveNavTab() {
       const navLinks = document.getElementById('navLinks');
